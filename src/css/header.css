@@ -1,0 +1,16 @@
+.header {
+    background-color: purple;
+    height: 40px;
+    min-width: 100%;
+    display: flex;
+    color: white;
+    box-sizing: border-box;
+    padding: 5px 20px;
+    font-size: 20px;
+}
+
+.appName {
+    flex-grow: 1;
+    text-align: left;
+    padding: 0px 10px;
+}
