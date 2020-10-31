@@ -1,13 +1,10 @@
-import { connect } from 'react-redux';
-
-
 import { initializeIcons } from '@fluentui/react/lib/Icons';
-import {FontIcon } from 'office-ui-fabric-react/lib/Icon';
+import { FontIcon } from 'office-ui-fabric-react/lib/Icon';
 import { mergeStyles } from 'office-ui-fabric-react/lib/Styling';
 
 import '../css/header.css';
-import LogInButton from './loginButton';
-import {toggleLogIn} from '../store/actions/login/actions';
+import Logout from './Logout';
+
 
 initializeIcons();
 
@@ -21,10 +18,10 @@ const iconClass = mergeStyles({
 
 function Header(props) {
   return (
-    <div className = "header">
-        <FontIcon iconName="FunctionalManagerDashboard" className={iconClass} />
-        <div className= "appName">FLOWAPP</div> 
-        <LogInButton />
+    <div className="header">
+      <FontIcon iconName="FunctionalManagerDashboard" className={iconClass} />
+      <div className="appName">FLOWAPP</div>
+      <Logout />
     </div>
   );
 }
