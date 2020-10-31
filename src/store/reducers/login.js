@@ -1,7 +1,7 @@
 import * as actionTypes from '../actions/login/actionTypes';
 
 const initialLoginState = {
-    isLoggedIn: false
+    isLoggedIn: true
 }
 
 export default function login(state = initialLoginState, action) {

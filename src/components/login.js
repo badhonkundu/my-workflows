@@ -37,14 +37,27 @@ function Login(props) {
 
   const onLoginClick = React.useCallback(() => {
     console.log(email, "-", password, "-");
-    if(email !== '' && password !== '') {
-      props.login();
-      props.history.replace('/workflows');
+    if (email !== '' && password !== '') {
+      if (isValidEmail(email)) {
+        props.login();
+        props.history.replace('/workflows');
+      }
     }
     else {
-      alert("enter valid details");
+      alert("Please enter both email and password");
     }
   }, [email, password]);
+
+  const isValidEmail = (inputText) => {
+    var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    if (reg.test(inputText) == false) {
+      alert("You have entered an invalid email address!");
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
 
   return (
     <div className="loginWidget">
@@ -59,7 +72,7 @@ function Login(props) {
         <Checkbox label="Remember me" checked={isRememberMe} onChange={onChechedChange} />
       </div>
       <div className="widgetChild">
-        <PrimaryButton text="Login" onClick={onLoginClick} style={{ height: '30px' }} />
+        <PrimaryButton text="Login" onClick={onLoginClick} style={{ height: '30px', minWidth: '100%' }} />
       </div>
       <div className="widgetChild">
         <label className="dummySignup">Don't have an account? Sign up here</label>
