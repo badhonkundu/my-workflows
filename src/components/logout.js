@@ -2,10 +2,10 @@ import '../css/header.css'
 
 import { DefaultButton } from 'office-ui-fabric-react';
 
-function Header() {
+function Logout() {
   return (
-    <DefaultButton text="Logout" onClick={() => console.log("logged out")} />
+    <DefaultButton text="Logout" onClick={() => console.log("logged out")} style ={{height: '30px'}} />
   );
 }
 
-export default Header;
+export default Logout;
