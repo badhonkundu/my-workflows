@@ -1,0 +1,15 @@
+import * as actionTypes from './actionTypes';
+
+export const deleteWf = (id) => {
+    return {
+        type: actionTypes.DELETE_WORKFLOW,
+        wfId: id
+    };    
+};
+
+export const updateWfState = (wfId) => {
+    return {
+        type: actionTypes.UPDATE_WORKFLOW_STATE,
+        wfId: wfId
+    };    
+};

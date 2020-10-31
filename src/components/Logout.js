@@ -7,9 +7,14 @@ import { logOut } from '../store/actions/login/actions';
 import { DefaultButton } from 'office-ui-fabric-react';
 
 function Logout(props) {
+  const logoutHandler = () => {
+    props.onLogOutClick();
+  }
+
   const logOut = props.isLoggedIn
-    ? <DefaultButton text="Logout" onClick={() => props.onLogOutClick()} style={{ height: '30px' }} />
-    : null
+    ? <DefaultButton text="Logout" onClick={logoutHandler} style={{ height: '30px' }} />
+    : null;
+
   return logOut;
 }
 

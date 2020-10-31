@@ -2,13 +2,14 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { Label } from 'office-ui-fabric-react/lib/Label';
-import { TextField, MaskedTextField } from 'office-ui-fabric-react/lib/TextField';
-import { Checkbox, ICheckboxProps } from 'office-ui-fabric-react/lib/Checkbox';
+import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 import { PrimaryButton } from 'office-ui-fabric-react';
 
 import { logIn } from '../store/actions/login/actions';
 
 import '../css/login.css';
+import { Redirect } from 'react-router-dom';
 
 const iconProps = { iconName: 'Mail' };
 
@@ -50,7 +51,7 @@ function Login(props) {
 
   const isValidEmail = (inputText) => {
     var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-    if (reg.test(inputText) == false) {
+    if (reg.test(inputText) === false) {
       alert("You have entered an invalid email address!");
       return false;
     }
@@ -59,7 +60,7 @@ function Login(props) {
     }
   }
 
-  return (
+  const loginWidget =
     <div className="loginWidget">
       <Label>Login</Label>
       <div className="widgetChild">
@@ -78,8 +79,18 @@ function Login(props) {
         <label className="dummySignup">Don't have an account? Sign up here</label>
       </div>
     </div>
-  );
+  const login = props.isLoggedIn
+    ? <Redirect to="/workflows" />
+    : loginWidget;
+    
+  return login;
 }
+
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: state.login.isLoggedIn
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -87,4 +98,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
