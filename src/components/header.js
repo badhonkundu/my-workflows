@@ -1,10 +1,13 @@
-import '../css/header.css'
+import { connect } from 'react-redux';
+
 
 import { initializeIcons } from '@fluentui/react/lib/Icons';
 import {FontIcon } from 'office-ui-fabric-react/lib/Icon';
 import { mergeStyles } from 'office-ui-fabric-react/lib/Styling';
 
-import Logout from './logout';
+import '../css/header.css';
+import LogInButton from './loginButton';
+import {toggleLogIn} from '../store/actions/login/actions';
 
 initializeIcons();
 
@@ -21,9 +24,8 @@ function Header(props) {
     <div className = "header">
         <FontIcon iconName="FunctionalManagerDashboard" className={iconClass} />
         <div className= "appName">FLOWAPP</div> 
-        {props.loggedIn ? <Logout /> : null}
+        <LogInButton />
     </div>
   );
 }
-
 export default Header;
