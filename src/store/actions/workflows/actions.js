@@ -13,3 +13,10 @@ export const updateWfState = (wfId) => {
         wfId: wfId
     };    
 };
+
+export const updateWf = (wf) => {
+    return {
+        type: actionTypes.UPDATE_WORKFLOW,
+        wfData: wf
+    };    
+};

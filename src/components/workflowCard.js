@@ -6,8 +6,6 @@ import { initializeIcons } from '@fluentui/react/lib/Icons';
 import { FontIcon } from 'office-ui-fabric-react/lib/Icon';
 import { mergeStyles } from 'office-ui-fabric-react/lib/Styling';
 
-import { DefaultButton } from 'office-ui-fabric-react';
-
 import '../css/workflows.css';
 
 import { deleteWf, updateWfState } from '../store/actions/workflows/actions';

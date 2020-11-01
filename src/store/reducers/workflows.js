@@ -23,11 +23,22 @@ export default function workflows(state = initialWorkflowsState, action) {
             const wfToUpdate = wfs[wfToUpdateIndex]
             const oldState = wfToUpdate.state;
 
-            const updatedWf = {...wfToUpdate, state: oldState === "Pending" ? "Completed" : "Pending"}
+            const updatedWf = { ...wfToUpdate, state: oldState === "Pending" ? "Completed" : "Pending" }
             wfs.splice(wfToUpdateIndex, 1, updatedWf);
 
             return {
                 ...state, workflows: wfs
+            };
+        case actionTypes.UPDATE_WORKFLOW:
+            const newWfs = [...state.workflows];
+            const wfToUpdateInd = newWfs.findIndex(wf => {
+                return wf.id === action.wfData.id;
+            });
+
+            newWfs.splice(wfToUpdateInd, 1, action.wfData);
+
+            return {
+                ...state, workflows: newWfs
             };
         default:
             return state

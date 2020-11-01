@@ -12,7 +12,7 @@ function Chrome(props) {
       <Switch>
         <Route path="/" exact render={() => <Redirect to="/workflows" />} />
         <Route path="/login" component={Login} />
-        <Route path="/workflows/:id" render={Workflow} />
+        <Route path="/workflows/:id" component={Workflow} />
         <Route path='/workflows' component={Workflows} />
         <Route component={NotFound} />
       </Switch>

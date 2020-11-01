@@ -8,25 +8,25 @@ export const defaultWorkflows = [
                 id: 1,
                 state: "Completed",
                 title: "Title 1",
-                content: "Content 2"
+                content: "Content 1"
             },
             {
                 id: 2,
                 state: "In-Progress",
-                title: "Title 1",
+                title: "Title 2",
                 content: "Content 2"
             },
             {
                 id: 3,
                 state: "Pending",
-                title: "Title 1",
-                content: "Content 2"
+                title: "Title 3",
+                content: "Content 3"
             },
             {
                 id: 4,
                 state: "Pending",
-                title: "Title 1",
-                content: "Content 2"
+                title: "Title 4",
+                content: "Content 4"
             }
         ]
     },
