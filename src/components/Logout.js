@@ -8,6 +8,7 @@ import { DefaultButton } from 'office-ui-fabric-react';
 
 function Logout(props) {
   const logoutHandler = () => {
+    localStorage.removeItem("flowappLoginPersist");
     props.onLogOutClick();
   }
 

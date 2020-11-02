@@ -20,7 +20,9 @@ function Header(props) {
   return (
     <div className="header">
       <FontIcon iconName="FunctionalManagerDashboard" className={iconClass} />
-      <div className="appName">FLOWAPP</div>
+      <div className="appName" >
+        FLOWAPP
+      </div>
       <Logout />
     </div>
   );

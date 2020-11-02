@@ -8,7 +8,7 @@ import '../css/workflows.css';
 
 initializeIcons();
 
-const NodeCard =React.forwardRef((props, ref) =>  {
+const NodeCard = React.forwardRef((props, ref) =>  {
   const [nodeTitle, setNodeTitle] = React.useState(props.node.title);
   const [nodeContent, setNodeContent] = React.useState(props.node.content);
   const [nodeState, setNodeState] = React.useState(props.node.state);

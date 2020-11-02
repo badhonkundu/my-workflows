@@ -3,13 +3,31 @@ import { DefaultButton } from '@fluentui/react';
 import { connect } from 'react-redux';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { PrimaryButton } from 'office-ui-fabric-react';
+import { initializeIcons } from '@fluentui/react/lib/Icons';
+import { FontIcon } from 'office-ui-fabric-react/lib/Icon';
+import { mergeStyles } from 'office-ui-fabric-react/lib/Styling';
+
 
 import '../css/workflows.css';
 import NodeCard from './nodeCard'
-import { updateWf } from '../store/actions/workflows/actions'
+import { updateWf, addWf } from '../store/actions/workflows/actions'
+import { Redirect } from 'react-router-dom';
+
+initializeIcons();
+const iconClass = mergeStyles({
+  fontSize: 40,
+  height: 40,
+  width: 40,
+  margin: '0px 5px',
+  color: "purple",
+  borderRadius: '20px',
+  cursor: 'pointer'
+});
+
 
 function Workflow(props) {
   let newWf = true;
+  const isPersisted = localStorage.getItem("flowappLoginPersist");
   const currentPathSplitted = props.location.pathname.split('/');
   const wfId = +currentPathSplitted[currentPathSplitted.length - 1];
   const getWf = (id) => {
@@ -138,18 +156,28 @@ function Workflow(props) {
         }
       }
       if (!wfInvalid) {
-        console.log(newNodes);
-        props.onUpdateWf(
-          {
-            id: wf.id,
-            name: wfName,
-            nodes: nodes,
-            state: wf.state
-          }
-        );
+        if (wfId === 0) {
+          props.onAddWf(
+            {
+              id: (new Date()).getTime(),
+              name: wfName,
+              nodes: newNodes,
+              state: "Pending"
+            }
+          );
+        }
+        else {
+          props.onUpdateWf(
+            {
+              id: wf.id,
+              name: wfName,
+              nodes: newNodes,
+              state: wf.state
+            }
+          );
+        }
       }
     }
-
   };
 
 
@@ -179,15 +207,19 @@ function Workflow(props) {
     </div>
 
   return (
-    <div>
-      {manageWf}
-      {
-        wfInvalid
-          ? <div className="emptyFieldWarning"> {errorMsg} </div>
-          : null
-      }
-      {allNodes}
-    </div>
+    props.isLoggedIn
+      ?
+      <React.Fragment>
+        {manageWf}
+        <PrimaryButton text="Go Back" iconProps={{ iconName: 'CaretLeftSolid8' }} className="manageButton" onClick={() => props.history.push('/workflows')} />
+        {
+          wfInvalid
+            ? <div className="emptyFieldWarning"> {errorMsg} </div>
+            : null
+        }
+        {allNodes}
+      </React.Fragment>
+      : <Redirect to = "/login" />
   );
 }
 
@@ -200,7 +232,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onUpdateWf: (wfData) => { dispatch(updateWf(wfData)) }
+    onUpdateWf: (wfData) => { dispatch(updateWf(wfData)) },
+    onAddWf: (wfData) => { dispatch(addWf(wfData)) }
   };
 };
 

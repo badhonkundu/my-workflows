@@ -14,6 +14,14 @@ import { Redirect } from 'react-router-dom';
 const iconProps = { iconName: 'Mail' };
 
 function Login(props) {
+  const isPersisted = localStorage.getItem("flowappLoginPersist");
+
+  console.log(isPersisted);
+  console.log(props.history);
+
+  if (isPersisted) {
+    props.login();
+  }
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [isRememberMe, setRememberMe] = React.useState(true);
@@ -40,6 +48,9 @@ function Login(props) {
     console.log(email, "-", password, "-");
     if (email !== '' && password !== '') {
       if (isValidEmail(email)) {
+        if (isRememberMe) {
+          localStorage.setItem("flowappLoginPersist", "true");
+        }
         props.login();
         props.history.replace('/workflows');
       }
@@ -79,18 +90,13 @@ function Login(props) {
         <label className="dummySignup">Don't have an account? Sign up here</label>
       </div>
     </div>
-  const login = props.isLoggedIn
+  const login =  isPersisted
     ? <Redirect to="/workflows" />
     : loginWidget;
-    
+
   return login;
 }
 
-const mapStateToProps = state => {
-  return {
-    isLoggedIn: state.login.isLoggedIn
-  };
-};
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -98,4 +104,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);

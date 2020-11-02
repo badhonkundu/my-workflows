@@ -20,3 +20,10 @@ export const updateWf = (wf) => {
         wfData: wf
     };    
 };
+
+export const addWf = (wf) => {
+    return {
+        type: actionTypes.ADD_WORKFLOW,
+        wfData: wf
+    };    
+};

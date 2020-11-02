@@ -38,9 +38,10 @@ function WorkflowCard(props) {
 
   return (
     <div key={props.workflow.id} className="workflowCard" >
-      <div className="workflowTitle">{props.workflow.name}</div>
+      <div className="workflowTitle" onClick = {() => props.history.push('/workflows/' + props.workflow.id)}> {props.workflow.name}</div>
       <div className="workflowStateSection">
-        <div>{props.workflow.state}</div>
+        <div >{props.workflow.state}</div>
+        
         <div>
           <FontIcon
             iconName="CheckMark"
@@ -51,9 +52,6 @@ function WorkflowCard(props) {
       </div>
       <div className="deleteWF">
         <FontIcon iconName="Delete" onClick={() => props.onDeleteWF(props.workflow.id)} />
-      </div>
-      <div className="editWF">
-        <FontIcon iconName="Edit" onClick={() => props.history.push('/workflows/' + props.workflow.id)} />
       </div>
     </div>
   );

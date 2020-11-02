@@ -40,6 +40,13 @@ export default function workflows(state = initialWorkflowsState, action) {
             return {
                 ...state, workflows: newWfs
             };
+        case actionTypes.ADD_WORKFLOW:
+            const newWorkflows = [...state.workflows];
+            newWorkflows.push(action.wfData);
+
+            return {
+                ...state, workflows: newWorkflows
+            };
         default:
             return state
     }
