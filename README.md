@@ -16,4 +16,6 @@ Similar functionality has been implemeneted in a few different ways for referenc
 
 Used only react hooks.
 
+Mock data and promises are added at src/data
+
 

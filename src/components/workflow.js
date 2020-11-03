@@ -148,6 +148,7 @@ function Workflow(props) {
   }
 
   const saveHandler = () => {
+    setWfInvalid(false);
     if (wfName === '') {
       setWfInvalid(true);
       setErrorMsg('Please enter workflow name');
