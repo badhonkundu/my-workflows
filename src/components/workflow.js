@@ -148,13 +148,13 @@ function Workflow(props) {
   }
 
   const saveHandler = () => {
-    setWfInvalid(false);
+    let isInvalidData = false;
     if (wfName === '') {
-      setWfInvalid(true);
+      isInvalidData = true;
       setErrorMsg('Please enter workflow name');
     }
     else if (nodes.length === 0) {
-      setWfInvalid(true);
+      isInvalidData = true;
       setErrorMsg("Atleast one node is required");
     }
     else {
@@ -165,12 +165,12 @@ function Workflow(props) {
           newNodes.push(nodeData);
         }
         else {
-          setWfInvalid(true);
+          isInvalidData = true;
           setErrorMsg("Nodes cannot have empty data");
           break;
         }
       }
-      if (!wfInvalid) {
+      if (!isInvalidData) {
         if (wfId === 0) {
           props.onAddWf(
             {
@@ -181,7 +181,7 @@ function Workflow(props) {
             },
             redirectToWfPage
           );
-          
+
         }
         else {
           props.onUpdateWf(
@@ -193,7 +193,13 @@ function Workflow(props) {
             }
           );
         }
-      }
+      }      
+    }
+    if(isInvalidData) {
+      setWfInvalid(true);
+    }
+    else {
+      setWfInvalid(false);
     }
   };
 
