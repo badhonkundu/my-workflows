@@ -11,6 +11,13 @@ import reducer from './store/reducers/index'
 const store = createStore(reducer, applyMiddleware(thunk));
 
 function App() {
+  React.useEffect(() => {
+    let path = localStorage.getItem('path');
+    if (path) {
+      localStorage.removeItem('path');
+      this.router.navigate([path]);
+    }
+  }, []);
   return (
     <div className="App">
       <Provider store={store}>
