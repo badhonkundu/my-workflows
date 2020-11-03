@@ -36,6 +36,13 @@
     position: relative;
 }
 
+.notFirstNode {
+    display: flex;
+}
+.firstNode {
+    margin-left: 50px;
+}
+
 .allNodes {
     display: flex;
     flex-wrap: wrap;
@@ -126,6 +133,10 @@
 .manageButton {
     height: 30px;
     color:white
+}
+
+.minWidth {
+    width: 100px;
 }
 
 .violetBg {

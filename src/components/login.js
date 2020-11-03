@@ -16,9 +16,6 @@ const iconProps = { iconName: 'Mail' };
 function Login(props) {
   const isPersisted = localStorage.getItem("flowappLoginPersist");
 
-  console.log(isPersisted);
-  console.log(props.history);
-
   if (isPersisted) {
     props.login();
   }
@@ -45,7 +42,6 @@ function Login(props) {
   }, []);
 
   const onLoginClick = React.useCallback(() => {
-    console.log(email, "-", password, "-");
     if (email !== '' && password !== '') {
       if (isValidEmail(email)) {
         if (isRememberMe) {

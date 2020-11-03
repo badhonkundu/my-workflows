@@ -1,8 +1,10 @@
 import * as actionTypes from '../actions/workflows/actionTypes';
-import { defaultWorkflows } from '../../data/mockData'
+import { defaultWorkflows } from '../../data/mockData';
 
 const initialWorkflowsState = {
-    workflows: [...defaultWorkflows]
+    workflows: [],
+    isGettingWfs: false,
+    isSavingWf: false
 }
 
 export default function workflows(state = initialWorkflowsState, action) {
@@ -13,6 +15,11 @@ export default function workflows(state = initialWorkflowsState, action) {
             });
             return {
                 ...state, workflows: filteredWfs
+            };
+
+        case actionTypes.SET_SAVING_WORKFLOW:
+            return {
+                ...state, isSavingWf: action.isSavingWf
             };
 
         case actionTypes.UPDATE_WORKFLOW_STATE:
@@ -46,6 +53,15 @@ export default function workflows(state = initialWorkflowsState, action) {
 
             return {
                 ...state, workflows: newWorkflows
+            };
+
+        case actionTypes.SET_WORKFLOWS:
+            return {
+                ...state, workflows: action.allWfs
+            };
+        case actionTypes.SET_GETTING_WORKFLOWS:
+            return {
+                ...state, isGettingWfs: action.isGettingWfs
             };
         default:
             return state

@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { PrimaryButton } from 'office-ui-fabric-react';
 import { initializeIcons } from '@fluentui/react/lib/Icons';
-import { FontIcon } from 'office-ui-fabric-react/lib/Icon';
+import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
 import { mergeStyles } from 'office-ui-fabric-react/lib/Styling';
 
 
 import '../css/workflows.css';
 import NodeCard from './nodeCard'
-import { updateWf, addWf } from '../store/actions/workflows/actions'
+import { updateWf, addWf } from '../store/actions/workflows/actions';
 import { Redirect } from 'react-router-dom';
 
 initializeIcons();
@@ -87,7 +87,6 @@ function Workflow(props) {
     });
     const nodeToUpdate = newNodes[nodeToUpdateIndex];
 
-    console.log(nodeToUpdateIndex, nodeToUpdate);
     const oldState = nodeToUpdate.state;
 
     let prevNodeState = nodeToUpdateIndex > 0 ? newNodes[nodeToUpdateIndex - 1].state : null;
@@ -101,7 +100,6 @@ function Workflow(props) {
       newNodes.splice(nodeToUpdateIndex, 1, updatedNode);
       setNodes(newNodes);
     }
-    console.log(newNodes);
 
   }
 
@@ -111,18 +109,30 @@ function Workflow(props) {
     setNodes(newNodes);
   }
 
-  const allNodeItems = [...nodes].map((n, index) => {
+  const allNodeItems = [...nodes].map((n, index, thisArray) => {
     if (index === 0) {
       return (
-        <NodeCard key={n.id} node={{ ...n }} updateNodeStateHandler={updateNodeState} ref={r => (childRef.current[index] = r)} />
+        <div className="firstNode">
+          <NodeCard key={n.id} node={{ ...n }} updateNodeStateHandler={updateNodeState} ref={r => (childRef.current[index] = r)} />
+        </div>
       );
+    }
+    else if (index === thisArray.length - 1) {
+      return (
+        <div className="notFirstNode">
+          <div className="lineBtn">&gt;&gt;</div>
+          <NodeCard key={n.id} node={{ ...n }} updateNodeStateHandler={updateNodeState} ref={r => (childRef.current[index] = r)} />
+        </div>
+      )
     }
     else {
       return (
-        <React.Fragment>
-          <div className="lineBtn">------&gt;</div>
+        <div className="notFirstNode">
+          <div className="lineBtn">&gt;&gt;</div>
           <NodeCard key={n.id} node={{ ...n }} updateNodeStateHandler={updateNodeState} ref={r => (childRef.current[index] = r)} />
-        </React.Fragment>
+          <div className="lineBtn">&gt;&gt;</div>
+
+        </div>
       )
 
     }
@@ -131,7 +141,11 @@ function Workflow(props) {
   const allNodes =
     <div className="allNodes">
       {allNodeItems}
-    </div>
+    </div>;
+
+  const redirectToWfPage = (wfId) => {
+    props.history.replace('/workflows/' + wfId);
+  }
 
   const saveHandler = () => {
     if (wfName === '') {
@@ -143,7 +157,7 @@ function Workflow(props) {
       setErrorMsg("Atleast one node is required");
     }
     else {
-      const newNodes = []; //allNodeItems.map((item, index) => childRef.current[index].getLatestNodeData());
+      const newNodes = [];
       for (let i = 0; i < allNodeItems.length; i++) {
         let nodeData = childRef.current[i].getLatestNodeData();
         if (nodeData.title !== '' && nodeData.content !== '') {
@@ -163,8 +177,10 @@ function Workflow(props) {
               name: wfName,
               nodes: newNodes,
               state: "Pending"
-            }
+            },
+            redirectToWfPage
           );
+          
         }
         else {
           props.onUpdateWf(
@@ -201,8 +217,12 @@ function Workflow(props) {
       <div className="controls">
         <DefaultButton text="Add Node" iconProps={{ iconName: 'Add' }} className="manageButton greenBg" onClick={addNodeHandler} />
       </div>
-      <div className="controls">
-        <PrimaryButton text="Save" onClick={saveHandler} className="manageButton" />
+      <div className="controls minWidth">
+        {
+          props.isSavingWf
+            ? <Spinner size={SpinnerSize.large} />
+            : <PrimaryButton text="Save" onClick={saveHandler} className="manageButton" />
+        }
       </div>
     </div>
 
@@ -219,21 +239,22 @@ function Workflow(props) {
         }
         {allNodes}
       </React.Fragment>
-      : <Redirect to = "/login" />
+      : <Redirect to="/login" />
   );
 }
 
 const mapStateToProps = state => {
   return {
     isLoggedIn: state.login.isLoggedIn,
-    workflows: state.workflows.workflows
+    workflows: state.workflows.workflows,
+    isSavingWf: state.workflows.isSavingWf
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     onUpdateWf: (wfData) => { dispatch(updateWf(wfData)) },
-    onAddWf: (wfData) => { dispatch(addWf(wfData)) }
+    onAddWf: (wfData, redirectHandler) => { dispatch(addWf(wfData, redirectHandler)) }
   };
 };
 

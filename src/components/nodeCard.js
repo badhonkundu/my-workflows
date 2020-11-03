@@ -12,7 +12,6 @@ const NodeCard = React.forwardRef((props, ref) =>  {
   const [nodeTitle, setNodeTitle] = React.useState(props.node.title);
   const [nodeContent, setNodeContent] = React.useState(props.node.content);
   const [nodeState, setNodeState] = React.useState(props.node.state);
-  console.log("NodeDisplayed", props.node.id, props.node.state, props.node);
   React.useImperativeHandle(ref, () => ({
     getLatestNodeData: () => {
       return ({
